@@ -13,9 +13,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        print(error.localizedDescription)
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        
+        let charSet: NSCharacterSet = NSCharacterSet(charactersInString: "<>")
+        print("charset:",charSet)
+        
+        let deviceTokenString: String = (deviceToken.description as NSString).stringByTrimmingCharactersInSet(charSet).stringByReplacingOccurrencesOfString(" ", withString: "") as String
+        print("deviceToken:",deviceTokenString)
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window!.makeKeyAndVisible()
+        self.window!.rootViewController = ViewController()
+        
+//        
+//        let settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: [.Alert,.Badge,.Sound], categories: nil)
+//        
+//        application.registerUserNotificationSettings(settings)
+//        application.registerForRemoteNotifications()
         return true
     }
 
